@@ -70,7 +70,7 @@ function observeWithXHR(cb: any): void {
   xhr.send();
 }
 
-function observeWithEventSource(cb: any): void {
+export function observeWithEventSource(cb: any): void {
   // https://developer.mozilla.org/en-US/docs/Web/API/EventSource/EventSource
   const evtSource = new EventSource(
     `${config.firebaseBaseUrl}/${config.firebaseCollection}`

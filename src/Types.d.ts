@@ -1,11 +1,15 @@
+declare type Action = {
+  type: string;
+  payload?: any;
+};
+
 declare type Message = {
-  username: string;
+  name: string;
   message: string;
   date: Date;
 };
 
 declare type State = {
-  username: string | undefined;
+  username: string;
   messageList: Array<Message>;
-  text: string | undefined;
 };

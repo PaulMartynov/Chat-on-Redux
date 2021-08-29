@@ -1,18 +1,28 @@
 import { ChatMessages } from "./components/Messages";
-import { UserName } from "./components/User";
 import { InputForm } from "./components/InputForm";
 import { store } from "./redux/store";
+import {
+  getMessagesThunkAction,
+  getMessageThunkAction,
+} from "./actions/Actions";
+import "./css/style.css";
 
 // eslint-disable-next-line func-names
 (async function () {
-  const chatMessages = document.querySelector("#chatMessages");
-  const username = document.querySelector("#username");
-  const inputForm = document.querySelector("#inputForm");
+  const chatMessages = document.querySelector<HTMLDivElement>("#chatMessages");
+  const inputForm = document.querySelector("#input");
 
-  if (chatMessages && username && inputForm) {
-    const state: State = store.getState();
-    new ChatMessages(chatMessages, state);
-    new UserName(username, state);
-    new InputForm(inputForm, state);
+  if (chatMessages && inputForm) {
+    const chat = new ChatMessages(chatMessages, store.getState());
+    store.subscribe(() => {
+      chat.setState(store.getState());
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+    store.subscribe(() => {
+      new InputForm(inputForm, store.getState());
+    });
+
+    await store.dispatch(getMessagesThunkAction());
+    // store.dispatch(getMessageThunkAction());
   }
 })();

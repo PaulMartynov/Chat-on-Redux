@@ -1,0 +1,41 @@
+#chatMessages {
+  width: 70%;
+  height: 30em;
+  border: 1px solid #c1c1c1;
+}
+
+form {
+  margin-top: 15px;
+  width: 70%;
+  align-content: center;
+}
+
+#username {
+  width: 90%;
+}
+
+#inputForm {
+  margin-top: 5px;
+}
+
+#textMessage {
+  width: 81%;
+  height: 5em;
+  resize: none;
+}
+
+#sendBtn {
+  display: inline-block;
+  vertical-align: top;
+  height: 5em;
+  min-width: 18%;
+  max-width: 50%;
+}
+
+.message {
+  padding: 5px;
+}
+
+.scroll {
+  overflow-y: scroll;
+}
