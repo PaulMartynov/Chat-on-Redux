@@ -6,8 +6,8 @@ export class InputForm extends Component<State> {
     return template(
       `
           <label for="textMessage">Ваше сообщение:</label>
-          <textarea  id='textMessage'  autofocus  class="scroll">{{text}}</textarea>
-          <input type="button" id="sendBtn" value="Отправить">
+          <textarea  id='textMessage'  autofocus  class="scroll" required>{{text}}</textarea>
+          <input type="submit" id="sendBtn" value="Отправить">
         `,
       this.state
     );

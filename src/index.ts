@@ -1,6 +1,7 @@
 import { ChatMessages } from "./components/Messages";
 import { UserName } from "./components/User";
 import { InputForm } from "./components/InputForm";
+import { store } from "./redux/store";
 
 // eslint-disable-next-line func-names
 (async function () {
@@ -9,11 +10,7 @@ import { InputForm } from "./components/InputForm";
   const inputForm = document.querySelector("#inputForm");
 
   if (chatMessages && username && inputForm) {
-    const state: State = {
-      username: "Неизвестный",
-      messageList: [],
-      text: "",
-    };
+    const state: State = store.getState();
     new ChatMessages(chatMessages, state);
     new UserName(username, state);
     new InputForm(inputForm, state);

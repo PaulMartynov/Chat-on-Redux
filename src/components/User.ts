@@ -6,7 +6,7 @@ export class UserName extends Component<State> {
     return template(
       `
           <label for="username">Ваше имя:</label>
-          <input id="username" type="text" value="{{username}}">
+          <input id="username" type="text" value="{{username}}" required>
         `,
       this.state
     );
