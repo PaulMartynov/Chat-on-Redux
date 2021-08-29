@@ -6,7 +6,7 @@ const config = {
 // /**
 //  * @return {Object[]} messagesList
 //  */
-export async function getMessagesList() {
+export async function getMessagesList(): Promise<Message[]> {
   return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
     headers: {
       Accept: "application/json",
@@ -15,7 +15,7 @@ export async function getMessagesList() {
   })
     .then((response) => response.json())
     .then((data) =>
-      Object.values(data).map((el) => ({
+      Object.values<Message>(data).map((el: Message) => ({
         ...el,
         date: new Date(el.date),
       }))
@@ -28,7 +28,7 @@ export async function getMessagesList() {
 //  * @param {string} data.message
 //  * @returns {boolean}
 //  */
-export async function sendMessage(data) {
+export async function sendMessage(data: Message): Promise<boolean> {
   return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
     method: "POST",
     body: JSON.stringify({
@@ -42,7 +42,7 @@ export async function sendMessage(data) {
   }).then((response) => response.json());
 }
 
-function observeWithXHR(cb) {
+function observeWithXHR(cb: any): void {
   // https://firebase.google.com/docs/reference/rest/database#section-streaming
   const xhr = new XMLHttpRequest();
   let lastResponseLength = 0;
@@ -70,16 +70,16 @@ function observeWithXHR(cb) {
   xhr.send();
 }
 
-function observeWithEventSource(cb) {
+function observeWithEventSource(cb: any): void {
   // https://developer.mozilla.org/en-US/docs/Web/API/EventSource/EventSource
   const evtSource = new EventSource(
     `${config.firebaseBaseUrl}/${config.firebaseCollection}`
   );
 
-  evtSource.addEventListener("put", (ev) => cb(JSON.parse(ev.data).data));
+  evtSource.addEventListener("put", (ev: any) => cb(JSON.parse(ev.data).data));
 }
 
-window.sendMessage = sendMessage;
-window.getMessagesList = getMessagesList;
-window.observeWithXHR = observeWithXHR;
-window.observeWithEventSource = observeWithEventSource;
+// window.sendMessage = sendMessage;
+// window.getMessagesList = getMessagesList;
+// window.observeWithXHR = observeWithXHR;
+// window.observeWithEventSource = observeWithEventSource;
