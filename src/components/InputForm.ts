@@ -27,7 +27,7 @@ export class InputForm extends Component<State> {
     return template(
       `
           <form>
-            <div id="username">
+            <div id="user">
               <div id="label"><span>Ваше имя:</span></div>
               <input id="username" type="text" value="{{username}}" required>
             </div>
