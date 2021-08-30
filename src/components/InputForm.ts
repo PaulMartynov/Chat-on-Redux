@@ -1,18 +1,22 @@
 import { Component } from "./Component";
 import { template } from "../templates/template";
-import { sendMessageEvent } from "../actions/Actions";
+import { sendMessage } from "../services/messagesApi";
 
 export class InputForm extends Component<State> {
   private submit = async (ev: Event): Promise<void> => {
     ev.preventDefault();
-    const message: Message = {
-      name: this.state.username,
-      message: (ev.target as Element).querySelector<HTMLTextAreaElement>(
-        "#textMessage"
-      )!.value,
-      date: new Date(),
-    };
-    await sendMessageEvent(message);
+    const input = (ev.target as Element).querySelector<HTMLTextAreaElement>(
+      "#textMessage"
+    );
+    if (input) {
+      const message: Message = {
+        name: this.state.username,
+        message: input.value,
+        date: new Date(),
+      };
+      input.value = "";
+      await sendMessage(message);
+    }
   };
 
   events = {

@@ -2,13 +2,10 @@ import { Dispatch } from "redux";
 import {
   getMessagesList,
   observeWithEventSource,
-  sendMessage,
 } from "../services/messagesApi";
-import { store } from "../redux/store";
 
 export const GET_MESSAGES = "GET_MESSAGES";
 export const GET_MESSAGE = "GET_MESSAGE";
-export const SEND_MESSAGE = "SEND_MESSAGE";
 
 export function getMessagesAction(messages: Message[]): Action {
   return {
@@ -17,15 +14,9 @@ export function getMessagesAction(messages: Message[]): Action {
   };
 }
 
-export function sendMessageAction(): Action {
-  return {
-    type: SEND_MESSAGE,
-  };
-}
-
 export function getMessageAction(message: Message): Action {
   return {
-    type: GET_MESSAGES,
+    type: GET_MESSAGE,
     payload: message,
   };
 }
@@ -37,30 +28,14 @@ export const getMessagesThunkAction = () => {
   };
 };
 
-export const sendMessageThunkAction = (message: Message) => {
-  return async (dispatch: Dispatch): Promise<void> => {
-    await sendMessage(message);
-    dispatch(sendMessageAction());
-  };
-};
-
 export const getMessageThunkAction = () => {
   return (dispatch: Dispatch): void => {
-    observeWithEventSource(
-      (data: { name: string; message: string; date: Date }) => {
-        dispatch(
-          getMessageAction({
-            name: data.name,
-            message: data.message,
-            date: data.date,
-          })
-        );
+    observeWithEventSource((data: any) => {
+      if (!Object.keys(data).includes("message")) {
+        return;
       }
-    );
+      const message: Message = { ...data, date: new Date(data.date) };
+      dispatch(getMessageAction(message));
+    });
   };
 };
-
-export async function sendMessageEvent(message: Message): Promise<void> {
-  await store.dispatch(sendMessageThunkAction(message));
-  await store.dispatch(getMessagesThunkAction());
-}

@@ -6,7 +6,7 @@ export class ChatMessages extends Component<State> {
     return template(
       `{{for messageList}}
             <div class="message">
-              <p class="date">{{date}}}</p>
+              <p class="date">{{date}}</p>
               <span class="author">{{name}}</span>:
                 <p>{{message}}</p>
             </div>
