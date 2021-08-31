@@ -4,6 +4,7 @@ import {
   observeWithEventSource,
 } from "../services/messagesApi";
 
+const NUMBER_OF_LAST_MESSAGES = 50;
 export const GET_MESSAGES = "GET_MESSAGES";
 export const GET_MESSAGE = "GET_MESSAGE";
 export const CHANGE_USERNAME = "CHANGE_USERNAME";
@@ -32,7 +33,7 @@ export function changeUsernameAction(username: string): Action {
 export const getMessagesThunkAction = () => {
   return async (dispatch: Dispatch): Promise<void> => {
     const messages = await getMessagesList();
-    dispatch(getMessagesAction(messages));
+    dispatch(getMessagesAction(messages.slice(-NUMBER_OF_LAST_MESSAGES)));
   };
 };
 
