@@ -1,20 +1,27 @@
 import { Component } from "./Component";
 import { template } from "../templates/template";
 import { sendMessage } from "../services/messagesApi";
+import { changeUserName } from "../chat";
 
 export class InputForm extends Component<State> {
   private submit = async (ev: Event): Promise<void> => {
     ev.preventDefault();
-    const input = (ev.target as Element).querySelector<HTMLTextAreaElement>(
-      "#textMessage"
-    );
-    if (input) {
+    const messageInput = (
+      ev.target as Element
+    ).querySelector<HTMLTextAreaElement>("#textMessage");
+    const usernameInput = (
+      ev.target as Element
+    ).querySelector<HTMLTextAreaElement>("#username");
+    if (usernameInput) {
+      changeUserName(usernameInput.value);
+    }
+    if (messageInput) {
       const message: Message = {
         name: this.state.username,
-        message: input.value,
+        message: messageInput.value,
         date: new Date(),
       };
-      input.value = "";
+      messageInput.value = "";
       await sendMessage(message);
     }
   };

@@ -6,6 +6,7 @@ import {
 
 export const GET_MESSAGES = "GET_MESSAGES";
 export const GET_MESSAGE = "GET_MESSAGE";
+export const CHANGE_USERNAME = "CHANGE_USERNAME";
 
 export function getMessagesAction(messages: Message[]): Action {
   return {
@@ -18,6 +19,13 @@ export function getMessageAction(message: Message): Action {
   return {
     type: GET_MESSAGE,
     payload: message,
+  };
+}
+
+export function changeUsernameAction(username: string): Action {
+  return {
+    type: CHANGE_USERNAME,
+    payload: username,
   };
 }
 

@@ -2,6 +2,7 @@ import { ChatMessages } from "./components/Messages";
 import { store } from "./redux/store";
 import { InputForm } from "./components/InputForm";
 import {
+  changeUsernameAction,
   getMessagesThunkAction,
   getMessageThunkAction,
 } from "./actions/Actions";
@@ -26,4 +27,8 @@ export async function initChat(): Promise<void> {
     await store.dispatch(getMessagesThunkAction());
     store.dispatch(getMessageThunkAction());
   }
+}
+
+export function changeUserName(username: string): void {
+  store.dispatch(changeUsernameAction(username));
 }

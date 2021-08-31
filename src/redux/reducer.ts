@@ -1,5 +1,5 @@
 import { Reducer } from "redux";
-import { GET_MESSAGE, GET_MESSAGES } from "../actions/Actions";
+import { CHANGE_USERNAME, GET_MESSAGE, GET_MESSAGES } from "../actions/Actions";
 
 const initialState: State = {
   username: "Неизвестный",
@@ -20,6 +20,11 @@ export const chatReducer: Reducer<State> = (
       return {
         ...state,
         messageList: [...state.messageList, action.payload],
+      };
+    case CHANGE_USERNAME:
+      return {
+        ...state,
+        username: action.payload,
       };
     default:
       return state;
