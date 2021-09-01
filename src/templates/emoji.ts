@@ -2,7 +2,7 @@ type Emojis = {
   [key: string]: string;
 };
 
-const emojis: Emojis = {
+export const emojis: Emojis = {
   ":)": "&#128512;",
   ":-)": "&#128512;",
   "(:": "&#128512;",

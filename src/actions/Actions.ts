@@ -39,7 +39,7 @@ export const getMessagesThunkAction = () => {
 
 export const getMessageThunkAction = () => {
   return (dispatch: Dispatch): void => {
-    observeWithEventSource((data: any) => {
+    observeWithEventSource((data: Message) => {
       if (!Object.keys(data).includes("message")) {
         return;
       }
