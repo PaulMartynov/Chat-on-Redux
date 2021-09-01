@@ -4,7 +4,7 @@ import { sendMessage } from "../services/messagesApi";
 import { changeUserName } from "../chat";
 
 export class InputForm extends Component<State> {
-  private submit = async (ev: Event): Promise<void> => {
+  submit = async (ev: Event): Promise<void> => {
     ev.preventDefault();
     const messageInput = (
       ev.target as Element
