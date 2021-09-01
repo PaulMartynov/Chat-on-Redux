@@ -62,16 +62,11 @@ describe("testing submit event", () => {
     if (messageInput) {
       messageInput.value = "test_message";
     }
-    setTimeout(() => {
-      if (formElement) {
-        dispatchEvent(new Event("submit"));
-      }
-      expect(store.getState().username).toBe("NewUserName");
-      expect(service.sendMessage).toBeCalledWith({
-        name: "NewUserName",
-        message: "test_message",
-        date: new Date(),
-      });
-    }, 100);
+    if (formElement) {
+      formElement.addEventListener("submit", form.submit);
+      formElement.dispatchEvent(new Event("submit"));
+    }
+    expect(store.getState().username).toBe("NewUserName");
+    expect(service.sendMessage).toBeCalled();
   });
 });

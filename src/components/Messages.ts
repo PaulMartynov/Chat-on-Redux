@@ -10,7 +10,7 @@ export class ChatMessages extends Component<State> {
             <div class="message">
               <p class="date">{{date}}</p>
               <span class="author">{{name}}</span>:
-                <p>{{message}}</p>
+                <p class="text">{{message}}</p>
             </div>
             {{endfor}}`,
         this.state
