@@ -1,7 +1,7 @@
 import { ChatMessages } from "./Messages";
 import { store } from "../redux/store";
 import { Component } from "./Component";
-import { getMessagesAction } from "../actions/Actions";
+import { getMessageAction, getMessagesAction } from "../actions/Actions";
 
 describe("testing ChatMessages class", () => {
   let messagesList: ChatMessages;
@@ -46,5 +46,27 @@ describe("testing ChatMessages class", () => {
     expect(webEl.querySelector(".author")?.innerHTML).toBe("testName");
     expect(webEl.querySelector(".text")).not.toBe(null);
     expect(webEl.querySelector(".text")?.innerHTML).toBe("testMessage");
+
+    const newDate = new Date();
+    const newMessage = {
+      name: "testName2",
+      message: "testMessage2",
+      date: newDate,
+    };
+
+    store.dispatch(getMessageAction(newMessage));
+
+    expect(store.getState().messageList).toHaveLength(2);
+    expect(store.getState().messageList[1]).toStrictEqual(newMessage);
+
+    expect(webEl.querySelectorAll(".message")).toHaveLength(2);
+    expect(webEl.querySelectorAll(".date")).toHaveLength(2);
+    expect(webEl.querySelectorAll(".author")).toHaveLength(2);
+    expect(webEl.querySelectorAll(".text")).toHaveLength(2);
+    expect(webEl.querySelectorAll(".date")[1]?.innerHTML).toBe(
+      newDate.toString()
+    );
+    expect(webEl.querySelectorAll(".author")[1]?.innerHTML).toBe("testName2");
+    expect(webEl.querySelectorAll(".text")[1]?.innerHTML).toBe("testMessage2");
   });
 });
