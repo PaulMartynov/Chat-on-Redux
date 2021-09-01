@@ -40,10 +40,10 @@ describe("testing ChatMessages class", () => {
     expect(webEl.querySelectorAll(".message")).toHaveLength(1);
     expect(webEl.querySelector(".date")).not.toBe(null);
     expect(webEl.querySelector(".date")?.innerHTML).toBe(
-      currentDate.toString()
+      `<i>${currentDate.toString()}</i>`
     );
     expect(webEl.querySelector(".author")).not.toBe(null);
-    expect(webEl.querySelector(".author")?.innerHTML).toBe("testName");
+    expect(webEl.querySelector(".author")?.innerHTML).toBe("<b>testName</b>");
     expect(webEl.querySelector(".text")).not.toBe(null);
     expect(webEl.querySelector(".text")?.innerHTML).toBe("testMessage");
 
@@ -64,9 +64,11 @@ describe("testing ChatMessages class", () => {
     expect(webEl.querySelectorAll(".author")).toHaveLength(2);
     expect(webEl.querySelectorAll(".text")).toHaveLength(2);
     expect(webEl.querySelectorAll(".date")[1]?.innerHTML).toBe(
-      newDate.toString()
+      `<i>${newDate.toString()}</i>`
     );
-    expect(webEl.querySelectorAll(".author")[1]?.innerHTML).toBe("testName2");
+    expect(webEl.querySelectorAll(".author")[1]?.innerHTML).toBe(
+      "<b>testName2</b>"
+    );
     expect(webEl.querySelectorAll(".text")[1]?.innerHTML).toBe("testMessage2");
   });
 });
