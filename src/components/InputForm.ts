@@ -6,11 +6,8 @@ import { changeUserName } from "../chat";
 export class InputForm extends Component<State> {
   submit = async (ev: Event): Promise<void> => {
     ev.preventDefault();
+    if (!ev.target) return;
     const targetEl = ev.target as Element;
-    if (!targetEl) {
-      return;
-    }
-
     const messageInput =
       targetEl.querySelector<HTMLTextAreaElement>("#textMessage");
     const usernameInput =

@@ -58,8 +58,9 @@ describe("testing submit event", () => {
     expect(formElement).not.toBe(null);
     expect(nameInput).not.toBe(null);
     expect(messageInput).not.toBe(null);
+    const newName = `NewUserName_${Math.floor(Math.random() * 100) + 1}`;
     if (nameInput) {
-      nameInput.value = "NewUserName";
+      nameInput.value = newName;
     }
     if (messageInput) {
       messageInput.value = "test_message";
@@ -68,7 +69,7 @@ describe("testing submit event", () => {
       formElement.addEventListener("submit", form.submit);
       formElement.dispatchEvent(new Event("submit"));
     }
-    expect(store.getState().username).toBe("NewUserName");
+    expect(store.getState().username).toBe(newName);
     expect(service.sendMessage).toBeCalled();
   });
   test("is not change name on submit", () => {
@@ -94,6 +95,18 @@ describe("testing submit event", () => {
     }
     if (formElement) {
       formElement.addEventListener("submit", form.submit);
+      formElement.dispatchEvent(new Event("submit"));
+    }
+    expect(service.sendMessage).not.toBeCalled();
+  });
+  test("is not send message on submit if not form", () => {
+    expect(formElement).not.toBe(null);
+    expect(nameInput).not.toBe(null);
+    expect(messageInput).not.toBe(null);
+    if (messageInput) {
+      messageInput.remove();
+    }
+    if (formElement) {
       formElement.dispatchEvent(new Event("submit"));
     }
     expect(service.sendMessage).not.toBeCalled();
