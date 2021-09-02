@@ -5,13 +5,13 @@ import {
 } from "../services/messagesApi";
 
 const NUMBER_OF_LAST_MESSAGES = 50;
-export const GET_MESSAGES = "GET_MESSAGES";
+export const GET_ALL_MESSAGES = "GET_ALL_MESSAGES";
 export const GET_MESSAGE = "GET_MESSAGE";
 export const CHANGE_USERNAME = "CHANGE_USERNAME";
 
 export function getMessagesAction(messages: Message[]): Action {
   return {
-    type: GET_MESSAGES,
+    type: GET_ALL_MESSAGES,
     payload: { messageList: messages },
   };
 }
@@ -32,8 +32,13 @@ export function changeUsernameAction(username: string): Action {
 
 export const getMessagesThunkAction = () => {
   return async (dispatch: Dispatch): Promise<void> => {
-    const messages = await getMessagesList();
-    dispatch(getMessagesAction(messages.slice(-NUMBER_OF_LAST_MESSAGES)));
+    try {
+      const messages = await getMessagesList();
+      dispatch(getMessagesAction(messages.slice(-NUMBER_OF_LAST_MESSAGES)));
+    } catch (err) {
+      console.log(err);
+      alert("Sorry! Service is unavailable");
+    }
   };
 };
 

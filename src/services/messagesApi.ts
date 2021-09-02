@@ -42,34 +42,6 @@ export async function sendMessage(data: Message): Promise<boolean> {
   }).then((response) => response.json());
 }
 
-function observeWithXHR(cb: any): void {
-  // https://firebase.google.com/docs/reference/rest/database#section-streaming
-  const xhr = new XMLHttpRequest();
-  let lastResponseLength = 0;
-
-  xhr.addEventListener("progress", () => {
-    // console.log("xhr body", xhr.response);
-    const body = xhr.response.substr(lastResponseLength);
-    lastResponseLength = xhr.response.length;
-
-    const eventType = body.match(/event: (.+)/)[1];
-    const data = JSON.parse(body.match(/data: (.+)/)[1]);
-
-    if (eventType === "put") {
-      cb(data.data);
-    }
-  });
-
-  xhr.open(
-    "POST",
-    `${config.firebaseBaseUrl}/${config.firebaseCollection}`,
-    true
-  );
-  xhr.setRequestHeader("Accept", "text/event-stream");
-
-  xhr.send();
-}
-
 export function observeWithEventSource(cb: any): void {
   // https://developer.mozilla.org/en-US/docs/Web/API/EventSource/EventSource
   const evtSource = new EventSource(
@@ -78,8 +50,3 @@ export function observeWithEventSource(cb: any): void {
 
   evtSource.addEventListener("put", (ev: any) => cb(JSON.parse(ev.data).data));
 }
-
-// window.sendMessage = sendMessage;
-// window.getMessagesList = getMessagesList;
-// window.observeWithXHR = observeWithXHR;
-// window.observeWithEventSource = observeWithEventSource;

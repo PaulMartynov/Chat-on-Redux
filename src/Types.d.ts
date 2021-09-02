@@ -1,6 +1,6 @@
 declare type Action = {
   type: string;
-  payload?: any;
+  [key: string]: any;
 };
 
 declare type Message = {

@@ -37,6 +37,9 @@ describe("testing InputForm", () => {
 describe("testing submit event", () => {
   let form: InputForm;
   let webEl: Element;
+  let nameInput: HTMLInputElement | null;
+  let messageInput: HTMLTextAreaElement | null;
+  let formElement: Element | null;
   beforeEach(() => {
     webEl = document.createElement("div");
     form = new InputForm(webEl, store.getState());
@@ -44,15 +47,14 @@ describe("testing submit event", () => {
       form.setState(store.getState());
     });
     jest.spyOn(service, "sendMessage").mockImplementation();
+    nameInput = webEl.querySelector<HTMLInputElement>("#username");
+    messageInput = webEl.querySelector<HTMLTextAreaElement>("#textMessage");
+    formElement = webEl.querySelector("form");
   });
   test("it is a function", () => {
     expect(form.submit).toBeInstanceOf(Function);
   });
-  test("it change name on submit & send message", () => {
-    const nameInput = webEl.querySelector<HTMLInputElement>("#username");
-    const messageInput =
-      webEl.querySelector<HTMLTextAreaElement>("#textMessage");
-    const formElement = webEl.querySelector("form");
+  test("it change name on submit & send message", async () => {
     expect(formElement).not.toBe(null);
     expect(nameInput).not.toBe(null);
     expect(messageInput).not.toBe(null);
@@ -68,5 +70,32 @@ describe("testing submit event", () => {
     }
     expect(store.getState().username).toBe("NewUserName");
     expect(service.sendMessage).toBeCalled();
+  });
+  test("is not change name on submit", () => {
+    expect(formElement).not.toBe(null);
+    expect(nameInput).not.toBe(null);
+    expect(messageInput).not.toBe(null);
+    const nameBefore = store.getState().username;
+    if (nameInput) {
+      nameInput.remove();
+    }
+    if (formElement) {
+      formElement.addEventListener("submit", form.submit);
+      formElement.dispatchEvent(new Event("submit"));
+    }
+    expect(store.getState().username).toBe(nameBefore);
+  });
+  test("is not send message on submit", () => {
+    expect(formElement).not.toBe(null);
+    expect(nameInput).not.toBe(null);
+    expect(messageInput).not.toBe(null);
+    if (messageInput) {
+      messageInput.remove();
+    }
+    if (formElement) {
+      formElement.addEventListener("submit", form.submit);
+      formElement.dispatchEvent(new Event("submit"));
+    }
+    expect(service.sendMessage).not.toBeCalled();
   });
 });

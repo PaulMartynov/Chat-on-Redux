@@ -13,7 +13,7 @@ export function template(tpl: string, data: any): string {
     /{{for (\w+) as (\w+)}}([\s\S]+?){{endfor}}/g,
     (fullMatch: string, listName: string, iterator: string, option: string) => {
       const result = data[listName].map((item: string) => {
-        const temp = {} as Record<string, unknown>;
+        const temp: Record<string, unknown> = {};
         temp[iterator] = item;
         return template(option, temp);
       });
