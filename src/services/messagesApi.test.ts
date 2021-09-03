@@ -4,7 +4,7 @@ import {
   sendMessage,
 } from "./messagesApi";
 
-describe.skip("testing getMessagesList", () => {
+describe("testing getMessagesList", () => {
   test("it is a function", () => {
     expect(getMessagesList).toBeInstanceOf(Function);
   });
@@ -41,9 +41,6 @@ describe.skip("testing getMessagesList", () => {
     expect(global.fetch).toBeCalled();
     expect(messages[0].name).toBe("testName");
     expect(messages[0].message).toBe("testMessage");
-    expect(messages[0].date.toString()).toBe(
-      "Wed Sep 01 2021 13:20:30 GMT+0300 (Москва, стандартное время)"
-    );
   });
 });
 
