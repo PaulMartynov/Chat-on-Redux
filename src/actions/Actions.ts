@@ -34,7 +34,6 @@ export const getMessagesThunkAction = () => {
   return async (dispatch: Dispatch): Promise<void> => {
     try {
       const messages = await getMessagesList();
-      console.log(messages);
       dispatch(getMessagesAction(messages.slice(-NUMBER_OF_LAST_MESSAGES)));
     } catch (err) {
       console.log(err);
