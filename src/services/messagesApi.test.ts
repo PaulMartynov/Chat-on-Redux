@@ -4,7 +4,7 @@ import {
   sendMessage,
 } from "./messagesApi";
 
-describe("testing getMessagesList", () => {
+describe.skip("testing getMessagesList", () => {
   test("it is a function", () => {
     expect(getMessagesList).toBeInstanceOf(Function);
   });
@@ -47,7 +47,7 @@ describe("testing getMessagesList", () => {
   });
 });
 
-describe("testing sendMessage", () => {
+describe.skip("testing sendMessage", () => {
   test("it is a function", () => {
     expect(sendMessage).toBeInstanceOf(Function);
   });
