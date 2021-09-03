@@ -47,7 +47,7 @@ describe.skip("testing getMessagesList", () => {
   });
 });
 
-describe.skip("testing sendMessage", () => {
+describe("testing sendMessage", () => {
   test("it is a function", () => {
     expect(sendMessage).toBeInstanceOf(Function);
   });
