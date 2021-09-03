@@ -1,8 +1,3 @@
-declare type Action = {
-  type: string;
-  [key: string]: any;
-};
-
 declare type Message = {
   name: string;
   message: string;

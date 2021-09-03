@@ -1,4 +1,4 @@
-import { Reducer } from "redux";
+import { AnyAction, Reducer } from "redux";
 import {
   CHANGE_USERNAME,
   GET_MESSAGE,
@@ -12,7 +12,7 @@ const initialState: State = {
 
 export const chatReducer: Reducer<State> = (
   state = initialState,
-  action: Action
+  action: AnyAction
 ) => {
   switch (action.type) {
     case GET_ALL_MESSAGES:
