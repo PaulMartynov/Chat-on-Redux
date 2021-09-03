@@ -7,19 +7,23 @@ const config = {
 //  * @return {Object[]} messagesList
 //  */
 export async function getMessagesList(): Promise<Message[]> {
-  return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) =>
-      Object.values<Message>(data).map((el: Message) => ({
-        ...el,
-        date: new Date(el.date),
-      }))
-    );
+  const response = await fetch(
+    `${config.firebaseBaseUrl}/${config.firebaseCollection}`,
+    {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const data = await response.json();
+  if (data.error) {
+    throw new Error(data.error);
+  }
+  return Object.values<Message>(data).map((el: Message) => ({
+    ...el,
+    date: new Date(el.date),
+  }));
 }
 
 // /**
@@ -28,46 +32,25 @@ export async function getMessagesList(): Promise<Message[]> {
 //  * @param {string} data.message
 //  * @returns {boolean}
 //  */
-export async function sendMessage(data: Message): Promise<boolean> {
-  return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
-    method: "POST",
-    body: JSON.stringify({
-      ...data,
-      date: new Date(),
-    }),
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  }).then((response) => response.json());
-}
-
-function observeWithXHR(cb: any): void {
-  // https://firebase.google.com/docs/reference/rest/database#section-streaming
-  const xhr = new XMLHttpRequest();
-  let lastResponseLength = 0;
-
-  xhr.addEventListener("progress", () => {
-    // console.log("xhr body", xhr.response);
-    const body = xhr.response.substr(lastResponseLength);
-    lastResponseLength = xhr.response.length;
-
-    const eventType = body.match(/event: (.+)/)[1];
-    const data = JSON.parse(body.match(/data: (.+)/)[1]);
-
-    if (eventType === "put") {
-      cb(data.data);
-    }
-  });
-
-  xhr.open(
-    "POST",
+export async function sendMessage(data: Message): Promise<void> {
+  const response = await fetch(
     `${config.firebaseBaseUrl}/${config.firebaseCollection}`,
-    true
+    {
+      method: "POST",
+      body: JSON.stringify({
+        ...data,
+        date: new Date(),
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
   );
-  xhr.setRequestHeader("Accept", "text/event-stream");
-
-  xhr.send();
+  const respData = await response.json();
+  if (respData.error) {
+    throw new Error(respData.error);
+  }
 }
 
 export function observeWithEventSource(cb: any): void {
@@ -78,8 +61,3 @@ export function observeWithEventSource(cb: any): void {
 
   evtSource.addEventListener("put", (ev: any) => cb(JSON.parse(ev.data).data));
 }
-
-// window.sendMessage = sendMessage;
-// window.getMessagesList = getMessagesList;
-// window.observeWithXHR = observeWithXHR;
-// window.observeWithEventSource = observeWithEventSource;

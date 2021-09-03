@@ -1,5 +1,9 @@
-import { Reducer } from "redux";
-import { CHANGE_USERNAME, GET_MESSAGE, GET_MESSAGES } from "../actions/Actions";
+import { AnyAction, Reducer } from "redux";
+import {
+  CHANGE_USERNAME,
+  GET_MESSAGE,
+  GET_ALL_MESSAGES,
+} from "../actions/Actions";
 
 const initialState: State = {
   username: "Неизвестный",
@@ -8,10 +12,10 @@ const initialState: State = {
 
 export const chatReducer: Reducer<State> = (
   state = initialState,
-  action: Action
+  action: AnyAction
 ) => {
   switch (action.type) {
-    case GET_MESSAGES:
+    case GET_ALL_MESSAGES:
       return {
         ...state,
         messageList: action.payload.messageList,

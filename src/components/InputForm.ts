@@ -6,12 +6,13 @@ import { changeUserName } from "../chat";
 export class InputForm extends Component<State> {
   submit = async (ev: Event): Promise<void> => {
     ev.preventDefault();
-    const messageInput = (
-      ev.target as Element
-    ).querySelector<HTMLTextAreaElement>("#textMessage");
-    const usernameInput = (
-      ev.target as Element
-    ).querySelector<HTMLTextAreaElement>("#username");
+    if (!ev.target) return;
+    const targetEl = ev.target as Element;
+    const messageInput =
+      targetEl.querySelector<HTMLTextAreaElement>("#textMessage");
+    const usernameInput =
+      targetEl.querySelector<HTMLTextAreaElement>("#username");
+
     if (usernameInput) {
       changeUserName(usernameInput.value);
     }
@@ -22,7 +23,12 @@ export class InputForm extends Component<State> {
         date: new Date(),
       };
       messageInput.value = "";
-      await sendMessage(message);
+      try {
+        await sendMessage(message);
+      } catch (err) {
+        console.log(err);
+        alert("Sorry! Service is unavailable");
+      }
     }
   };
 
